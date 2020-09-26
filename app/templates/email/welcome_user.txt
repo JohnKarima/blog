@@ -1,0 +1,3 @@
+Hello {{user.username}}
+**Enter TheVoid.com!**
+We have just seen you have signed up for our application and want to welcome you to the family. Please enjoy and don't stare into the void unless you want it to stare back at you.
