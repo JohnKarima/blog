@@ -1,11 +1,14 @@
-from app import app
 import requests
-from .models import quotes
+from .models import Quotes
 
-Quotes = quotes.Quotes
+base_url = None
 
-api_key = app.config['QUOTES_API_KEY']
-base_url = app.config["QUOTES_API_BASE_URL"]
+
+def configure_request(app):
+    global base_url
+    base_url = app.config['QUOTES_API_BASE_URL']
+
+
 
 def get_quotes():
     '''
