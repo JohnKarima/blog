@@ -1,19 +1,10 @@
-<html>
-    <head>
-        <meta charset="utf-8">
-        {% if title %}
-        <title> {{ title }}</title>
-        {% else %}
-        <title> TheVoid.com </title>
-        {% endif %}
-    </head>
-    <body>
-        {{message}}
-        <!-- Quotes section  -->
-        <h3>Random quote</h3>
-         <ul>
-            {{quotes.quote}}
-            {{quotes.author}}
-        </ul>
-    </body>
-</html>
+{% extends 'base.html'%}
+
+{% block content %}
+
+{{message}}
+<!-- Quotes section  -->
+<h3>Random quote</h3>
+<p>{{quotes.quote}}<br>{{quotes.author}}</p>
+
+{% endblock%}
