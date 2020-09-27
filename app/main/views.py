@@ -2,8 +2,8 @@ from flask import render_template, request, redirect, url_for, abort, flash
 from flask_login import login_required, current_user
 from . import main
 from ..request import get_quotes
-from ..models import User, Blog
-from .forms import UpdateProfile, BlogForm
+from ..models import User, Blog, Comment
+from .forms import UpdateProfile, BlogForm, CommentForm
 from .. import db, photos
 
 
@@ -60,11 +60,26 @@ def update_pic(uname):
 
 
 @main.route('/new_blog', methods = ['GET','POST'])
-def new_post():
+def new_blog():
     form = BlogForm()
     title = 'New Blog Post'
     if form.validate_on_submit():
-        blog = Blog( blog_post = form.blog_post.data, pitch = form.content.data,)
+        blog = Blog(blog_post = form.blog_post.data)
         blog.save_blog()
         return redirect(url_for('main.index'))
     return render_template('/new_blog.html',blog_form = form, title = title)
+
+
+
+
+
+
+@main.route('/add_comment', methods = ['GET','POST'])
+def new_comment():
+    form = CommentForm()
+    title = 'Add comment'
+    if form.validate_on_submit():
+        comment = Comment(comment = form.comment.data)
+        comment.save_comment()
+        return redirect(url_for('main.index'))
+    return render_template('/add_comment.html',comment_form = form, title = title)
