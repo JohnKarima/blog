@@ -2,8 +2,8 @@ from flask import render_template, request, redirect, url_for, abort, flash
 from flask_login import login_required, current_user
 from . import main
 from ..request import get_quotes
-from ..models import User
-from .forms import UpdateProfile
+from ..models import User, Blog
+from .forms import UpdateProfile, BlogForm
 from .. import db, photos
 
 
@@ -56,3 +56,15 @@ def update_pic(uname):
         user.profile_pic_path = path
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
+
+
+
+@main.route('/new_blog', methods = ['GET','POST'])
+def new_post():
+    form = BlogForm()
+    title = 'New Blog Post'
+    if form.validate_on_submit():
+        blog = Blog( blog_post = form.blog_post.data, pitch = form.content.data,)
+        blog.save_blog()
+        return redirect(url_for('main.index'))
+    return render_template('/new_blog.html',blog_form = form, title = title)

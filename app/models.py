@@ -2,6 +2,7 @@ from . import db
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from . import login_manager
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -57,3 +58,66 @@ class Role(db.Model):
 
     def __repr__(self):
         return f'User {self.name}'
+
+
+class Blog(db.Model):
+    '''
+    Blog class that define Blog Objects
+    '''
+    __tablename__ = 'blogs'
+
+    id = db.Column(db.Integer,primary_key = True)
+    blog = db.Column(db.Text)
+    date = db.Column(db.DateTime,default=datetime.utcnow)
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    comments = db.relationship('Comment',backref = 'user',lazy = "dynamic")
+
+    def save_blog(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_blog(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    def update_blog(self):
+        db.session.update(self)
+        db.session.commit()
+    
+    @classmethod
+    def get_all_blogs(cls):
+        return Blog.query.all()
+
+
+
+class Comment(db.Model):
+    
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer,primary_key = True)
+    comment = db.Column(db.String)
+    blog_id = db.Column(db.Integer,db.ForeignKey('blog.id'))
+    posted = db.Column(db.DateTime,default=datetime.utcnow)
+    blog_id = db.Column(db.Integer, db.ForeignKey('blogs.id'))
+
+    def save_comments(self):
+        db.session.add(self)
+        db.session.commit()
+        
+    @classmethod
+    def get_comments(cls,id):
+        comments = Comment.query.filter_by(pitch_id=id).all()
+        return comments
+
+    @classmethod
+    def clear_(cls):
+        Comment.all_comments.clear()
+
+
+    def delete_comments(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    def update_comments(self):
+        db.session.update(self)
+        db.session.commit()
