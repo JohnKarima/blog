@@ -91,6 +91,13 @@ def blog_page(id):
 
 
 
+@main.route("/delete/comment/<id>")
+def delete_comment(id):
+    comment = Comment.query.filter_by(id = id).first()
+    blog_id = comment.blog.id
+    db.session.delete(comment)
+    db.session.commit()
+    return redirect(url_for("main.blog_page", id = blog_id))
 
 
 
