@@ -29,6 +29,7 @@ class User(UserMixin, db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     pass_secure = db.Column(db.String(255))
+    blogs = db.relationship('Blog',backref = 'user',lazy = "dynamic")
 
 
     @property
@@ -70,14 +71,19 @@ class Blog(db.Model):
     blog = db.Column(db.Text)
     date = db.Column(db.DateTime,default=datetime.utcnow)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
-    comments = db.relationship('Comment',backref = 'user',lazy = "dynamic")
+    comments = db.relationship("Comment",backref = "blog", lazy = "dynamic")
+
+
+
+    def get_blog_comments(self):
+        return Comment.query.filter_by(blog_id = self.id)
 
     def save_blog(self):
         db.session.add(self)
         db.session.commit()
 
     def delete_blog(self):
-        db.session.add(self)
+        db.session.delete(self)
         db.session.commit()
     
     def update_blog(self):
@@ -96,9 +102,8 @@ class Comment(db.Model):
 
     id = db.Column(db.Integer,primary_key = True)
     comment = db.Column(db.String)
-    blog_id = db.Column(db.Integer,db.ForeignKey('blog.id'))
+    blog_id = db.Column(db.Integer,db.ForeignKey('blogs.id'))
     posted = db.Column(db.DateTime,default=datetime.utcnow)
-    blog_id = db.Column(db.Integer, db.ForeignKey('blogs.id'))
 
     def save_comments(self):
         db.session.add(self)
@@ -106,18 +111,17 @@ class Comment(db.Model):
         
     @classmethod
     def get_comments(cls,id):
-        comments = Comment.query.filter_by(pitch_id=id).all()
+        comments = Comment.query.filter_by(blog_id=id).all()
         return comments
 
     @classmethod
-    def clear_(cls):
+    def clear_comments(cls):
         Comment.all_comments.clear()
 
 
     def delete_comments(self):
-        db.session.add(self)
+        db.session.delete(self)
         db.session.commit()
     
-    def update_comments(self):
-        db.session.update(self)
-        db.session.commit()
+    def __repr__(self):
+        return f'comment:{self.comment}'

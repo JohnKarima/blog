@@ -5,6 +5,7 @@ from ..request import get_quotes
 from ..models import User, Blog, Comment
 from .forms import UpdateProfile, BlogForm, CommentForm
 from .. import db, photos
+import markdown2
 
 
 @main.route('/')
@@ -15,7 +16,8 @@ def index():
     title = 'TheVoid.com'
     message = 'Blog Gang Rise UP!!!'
     quotes = get_quotes()
-    return render_template('index.html', message = message, title = title, quotes=quotes)
+    blogs = Blog.get_all_blogs()
+    return render_template('index.html', message = message, title = title, quotes=quotes, blogs = blogs)
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -64,22 +66,54 @@ def new_blog():
     form = BlogForm()
     title = 'New Blog Post'
     if form.validate_on_submit():
-        blog = Blog(blog_post = form.blog_post.data)
+        blog = Blog(blog = form.blog_post.data)
+        
         blog.save_blog()
         return redirect(url_for('main.index'))
+
     return render_template('/new_blog.html',blog_form = form, title = title)
 
 
 
-
-
-
-@main.route('/add_comment', methods = ['GET','POST'])
-def new_comment():
+@main.route("/blog/<int:id>",methods = ["GET","POST"])
+def blog_page(id):
+    blog = Blog.query.filter_by(id = id).first()
+    title = 'Blog Post'
     form = CommentForm()
-    title = 'Add comment'
     if form.validate_on_submit():
-        comment = Comment(comment = form.comment.data)
-        comment.save_comment()
-        return redirect(url_for('main.index'))
-    return render_template('/add_comment.html',comment_form = form, title = title)
+        comment = form.comment.data
+        new_comment = Comment(comment = comment, blog = blog)
+        new_comment.save_comments()
+        return redirect(url_for('main.blog_page', id = blog.id))
+
+    comments = Comment.query.filter_by(blog_id = blog.id)
+    return render_template("blog.html", title = title, blog = blog, comment_form = form, comments = comments)
+
+
+
+
+
+
+# @main.route('/add_comment', methods = ['GET','POST'])
+# def new_comment():
+#     form = CommentForm()
+#     title = 'Add comment'
+#     if form.validate_on_submit():
+#         comment = Comment(comment = form.comment.data)
+#         comment.save_comments()
+#         return redirect(url_for('main.index'))
+#     return render_template('/add_comment.html',comment_form = form, title = title)
+
+
+
+
+# @main.route('/blog/comments/new/<int:id>',methods = ['GET','POST'])
+# def new_comment(id):
+#     form = CommentForm()
+   
+#     if form.validate_on_submit():
+#         new_comment = Comment(blog_id =id,comment=form.comment.data)
+#         new_comment.save_comments()
+#         return redirect(url_for('main.post',blog_id=id))
+    
+#     return render_template('add_comment.html',comment_form=form)
