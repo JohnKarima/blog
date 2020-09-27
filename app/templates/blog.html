@@ -14,7 +14,7 @@
                 {% if comments %}
                 {% for comment in comments%}
                <p> {{comment.comment}} </p>
-               {% if current_user.is_authenticated %}<a href="{{url_for('main.delete_comment', id = comment.id)}}">Delete</a>{% endif %}
+               {% if current_user.is_authenticated %}<a href="{{url_for('main.delete_comment', id = comment.id)}}">Delete Comment</a>{% endif %}
                 {% endfor%}
                 {% else %}
                 <p>There are no comments</p>

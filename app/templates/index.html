@@ -2,25 +2,39 @@
 
 {% block content %}
 
-<h1>{{message}}</h1>
-
-
+<style>
+  
+</style>
+<body>
+    
 {% for blog in blogs[::-1]%}
 <div class="container">
-    <div class="">
-        <p>"{{blog.blog}}"</p>
-        <p class="subtext"> Posted: {{blog.date.strftime("%c")}}</p>
-        {{blog.blogpost}}
-        <a href="/add_comment/{{blog.id}}}">Comments</a>
+<div class="card" >
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+      <p class="card-text">{{blog.blog}}</p>
+      <p class="subtext"> Posted: {{blog.date.strftime("%c")}}</p>
+      <a href="{{url_for('main.blog_page',id = blog.id)}}" class="card-link">Read More & Comment</a>
     </div>
-</div>   
+  </div>
+</div>
 {% endfor %} 
 
-
-
-<!-- Quotes section  -->
-<h3>Random quote</h3>
-<p>{{quotes.quote}}<br>{{quotes.author}}</p>
+<div class="container">
+<div class="card">
+    <div class="card-header">
+      The Void says:
+    </div>
+    <div class="card-body">
+      <blockquote class="blockquote">
+        <p>{{quotes.quote}}</p>
+        <footer class="blockquote-footer">{{quotes.author}} <cite title="Source Title">via Storm Consultancy</cite></footer>
+      </blockquote>
+    </div>
+  </div>
+</div>
+</body>
 
 {% endblock%}
 

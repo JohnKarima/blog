@@ -22,11 +22,13 @@ def index():
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
+    blogs = Blog.query.filter_by(user_id = user.id)
+
 
     if user is None:
         abort(404)
 
-    return render_template("profile/profile.html", user = user)
+    return render_template("profile/profile.html", user = user, blogs = blogs)
 
 
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
@@ -65,10 +67,13 @@ def update_pic(uname):
 def new_blog():
     form = BlogForm()
     title = 'New Blog Post'
+
     if form.validate_on_submit():
-        blog = Blog(blog = form.blog_post.data)
+        blog = form.blog_post.data
         
-        blog.save_blog()
+        new_blog = Blog(blog = blog, user = current_user)
+
+        new_blog.save_blog()
         return redirect(url_for('main.index'))
 
     return render_template('/new_blog.html',blog_form = form, title = title)
@@ -99,6 +104,14 @@ def delete_comment(id):
     db.session.commit()
     return redirect(url_for("main.blog_page", id = blog_id))
 
+@main.route("/delete/<id>")
+def delete(id):
+    blog = Blog.query.filter_by(id = id).first()
+    user_id = blog.user_id
+    db.session.delete(blog)
+    db.session.commit()
+
+    return redirect(url_for('main.profile',id = user_id))
 
 
 # @main.route('/add_comment', methods = ['GET','POST'])

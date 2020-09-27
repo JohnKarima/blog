@@ -1,0 +1,40 @@
+<body>
+    
+
+<h1>{{message}}</h1>
+
+
+{% for blog in blogs[::-1]%}
+<div class="container">
+        <p>{{blog.blog}}</p>
+        <p class="subtext"> Posted: {{blog.date.strftime("%c")}}</p>
+        <a href="{{url_for('main.blog_page',id = blog.id)}}">Read More and Comment</a>
+</div>   
+{% endfor %} 
+
+
+
+<!-- Quotes section  -->
+<div class="container">
+<h3>Random quote</h3>
+<p>{{quotes.quote}}<br>{{quotes.author}}</p>
+</div>
+
+</body>
+
+
+
+<style>
+    h1 {color:#1a1a61; font-size: 380% ;text-decoration:underline ; font-weight: bold;}
+    h2 {color:#1a1a61; font-size: 330%;}
+    p {color:#0d1321; font-size: 200%; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif}
+    .panel {background-color: #88B7B5; }
+    .subtext {font-size: 130%; font-weight: bold;}
+</style>
+
+
+
+{% block styles%}
+    {{super()}}
+    <link rel="stylesheet" href="../static/css/index.css">
+{% endblock %}
