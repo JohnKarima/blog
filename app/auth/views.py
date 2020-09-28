@@ -6,7 +6,6 @@ from .. import db
 from . import auth
 from ..email import mail_message
 
-
 @auth.route('/register',methods = ["GET","POST"])
 def register():
     form = RegistrationForm()
@@ -19,7 +18,6 @@ def register():
         return redirect(url_for('auth.login'))
         title = "New Account"
     return render_template('auth/register.html',registration_form = form)
-
 
 @auth.route('/login',methods=['GET','POST'])
 def login():

@@ -2,9 +2,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField,TextAreaField,SubmitField, SelectField
 from wtforms.validators import Required
 
-
 class UpdateProfile(FlaskForm):
-    bio = TextAreaField('Tell us about you.',validators = [Required()])
+    bio = TextAreaField('Tell us about yourself.',validators = [Required()])
     submit = SubmitField('Submit')
 
 class BlogForm(FlaskForm):

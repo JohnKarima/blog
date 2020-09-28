@@ -1,7 +1,6 @@
 {% extends 'base.html'%}
 
 {% block content %}
-
 <style>
     h1 {color:#1a1a61; font-size: 380% ;text-decoration:underline ; font-weight: bold;}
     h2 {color:#1a1a61; font-size: 330%;}
@@ -10,21 +9,18 @@
     .subtext {font-size: 130%; font-weight: bold;}
 </style>
 
-
-
 <div class="container text-center">
     <h1>Enter the Void.com</h1>
-    <h2>Microblogging on a micro framework...</h2><br>
+    <h2><em>Anonymous micro-blogging on a micro-framework...</em></h2><br>
     <a href="{{url_for('main.new_blog')}}"><br></a>
 </div>
 
-
 {% for blog in blogs[::-1]%}
 <div class="container">
-    <div class="panel bg-light text-justify style="style="box-shadow: 5px 5px 5px 5px #ceedec; padding:10px;">
-        <p>{{blog.blog |truncate(100)}}</p>
+    <div class="panel bg-light text-justify style="style="box-shadow: 5px 5px 5px 5px #ceedec; padding:20px;">
+        <p>{{blog.blog |truncate(250)}}</p>
         <p class="subtext"> Posted: {{blog.date.strftime("%c")}}</p>
-        <a href="{{url_for('main.blog_page',id = blog.id)}}" class= "btn btn-success btn-sm" style="background-color: #7F7EFF;">Read more & Comment </a>
+        <a href="{{url_for('main.blog_page',id = blog.id)}}" class= "btn btn-success btn-sm" style="background-color: #7F7EFF;">Read More & Comment </a>
     </div>
 </div>   
 {% endfor %} 
@@ -33,16 +29,15 @@
         <div class="card-header">
           The Void says:
         </div>
-
-    <div class="card-body">
-      <blockquote class="blockquote">
+        <div class="card-body">
+        <blockquote class="blockquote">
         <p>{{quotes.quote}}</p>
         <footer class="blockquote-footer">{{quotes.author}} <cite title="Source Title">via Storm Consultancy</cite></footer>
       </blockquote>
     </div>
   </div>
 </div>
-</body>
+
 
 {% endblock%}
 

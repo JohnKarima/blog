@@ -1,9 +1,7 @@
 {% extends 'base.html'%}
 {% import "bootstrap/wtf.html" as wtf %}
 
-
 {% block content%}
-
 <style>
     h1 {color:#1a1a61; font-size: 380% ;text-decoration:underline ; font-weight: bold;}
     h2 {color:#1a1a61; font-size: 330%;}
@@ -16,24 +14,22 @@
     <div class="panel bg-light text-center style="style="box-shadow: 5px 5px 5px 5px #ceedec; padding:10px;">
         <p class="text-justify">{{blog.blog}}</p>
         <p class="subtext"> Posted: {{blog.date.strftime("%c")}}</p>
-        
     </div>
 </div>   
 
 <div class="container">
     <h3>Leave a Comment</h3>
-                {{wtf.quick_form(comment_form)}}
-            <div class="comments-card col-sm-6">
-                <h3>Comments</h3>
-               <ul><li> {% if comments %}
-                {% for comment in comments%}
-               <p> {{comment.comment}} </p>
-               {% if current_user.is_authenticated %}<a href="{{url_for('main.delete_comment', id = comment.id)}}">Delete Comment</a>{% endif %}
-                {% endfor%}
-                {% else %}
-                <p>There are no comments</p>
-                {% endif %}</li></ul>
-</div>
-
+        {{wtf.quick_form(comment_form)}}
+    <div class="comments-card col-sm-6">
+        <h3>Comments</h3>
+            <ul><li> {% if comments %}
+            {% for comment in comments%}
+            <p>{{comment.comment}} </p>
+            {% if current_user.is_authenticated %}<a href="{{url_for('main.delete_comment', id = comment.id)}}">Delete Comment</a>{% endif %}
+            {% endfor%}
+            {% else %}
+            <p>There are no comments</p>
+            {% endif %}</li></ul>
     </div>
+</div>
 {% endblock%}

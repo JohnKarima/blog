@@ -61,3 +61,28 @@
 
 
 
+
+
+# @main.route('/add_comment', methods = ['GET','POST'])
+# def new_comment():
+#     form = CommentForm()
+#     title = 'Add comment'
+#     if form.validate_on_submit():
+#         comment = Comment(comment = form.comment.data)
+#         comment.save_comments()
+#         return redirect(url_for('main.index'))
+#     return render_template('/add_comment.html',comment_form = form, title = title)
+
+
+
+
+# @main.route('/blog/comments/new/<int:id>',methods = ['GET','POST'])
+# def new_comment(id):
+#     form = CommentForm()
+   
+#     if form.validate_on_submit():
+#         new_comment = Comment(blog_id =id,comment=form.comment.data)
+#         new_comment.save_comments()
+#         return redirect(url_for('main.post',blog_id=id))
+    
+#     return render_template('add_comment.html',comment_form=form)

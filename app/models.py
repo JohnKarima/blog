@@ -8,7 +8,6 @@ from datetime import datetime
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
 class Quotes:
     '''
     Quote class to define Quote Objects
@@ -17,8 +16,6 @@ class Quotes:
         self.id =id
         self.author = author
         self.quote = quote
-
-
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -30,7 +27,6 @@ class User(UserMixin, db.Model):
     profile_pic_path = db.Column(db.String())
     pass_secure = db.Column(db.String(255))
     blogs = db.relationship('Blog',backref = 'user',lazy = "dynamic")
-
 
     @property
     def password(self):
@@ -46,8 +42,6 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return f'User {self.username}'
-
-
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -73,8 +67,6 @@ class Blog(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
     comments = db.relationship("Comment",backref = "blog", lazy = "dynamic")
 
-
-
     def get_blog_comments(self):
         return Comment.query.filter_by(blog_id = self.id)
 
@@ -93,8 +85,6 @@ class Blog(db.Model):
     @classmethod
     def get_all_blogs(cls):
         return Blog.query.all()
-
-
 
 class Comment(db.Model):
     
