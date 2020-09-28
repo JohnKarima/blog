@@ -4,23 +4,36 @@
 
 {% block content%}
 
-                <p>{{blog.blog}}</p>
+<style>
+    h1 {color:#1a1a61; font-size: 380% ;text-decoration:underline ; font-weight: bold;}
+    h2 {color:#1a1a61; font-size: 330%;}
+    p {color:#0d1321; font-size: 200%; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif}
+    .panel {background-color: #88B7B5; }
+    .subtext {font-size: 130%; font-weight: bold;}
+</style>
 
-                <h3>Leave a Comment</h3>
+<div class="container">
+    <div class="panel bg-light text-center style="style="box-shadow: 5px 5px 5px 5px #ceedec; padding:10px;">
+        <p class="text-justify">{{blog.blog}}</p>
+        <p class="subtext"> Posted: {{blog.date.strftime("%c")}}</p>
+        
+    </div>
+</div>   
+
+<div class="container">
+    <h3>Leave a Comment</h3>
                 {{wtf.quick_form(comment_form)}}
-            </div>
             <div class="comments-card col-sm-6">
                 <h3>Comments</h3>
-                {% if comments %}
+               <ul><li> {% if comments %}
                 {% for comment in comments%}
                <p> {{comment.comment}} </p>
                {% if current_user.is_authenticated %}<a href="{{url_for('main.delete_comment', id = comment.id)}}">Delete Comment</a>{% endif %}
                 {% endfor%}
                 {% else %}
                 <p>There are no comments</p>
-                {% endif %}
-            </div>
-        </div>
+                {% endif %}</li></ul>
+</div>
 
     </div>
 {% endblock%}

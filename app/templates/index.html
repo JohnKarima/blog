@@ -3,29 +3,37 @@
 {% block content %}
 
 <style>
-  
+    h1 {color:#1a1a61; font-size: 380% ;text-decoration:underline ; font-weight: bold;}
+    h2 {color:#1a1a61; font-size: 330%;}
+    p {color:#0d1321; font-size: 200%; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif}
+    .panel {background-color: #88B7B5; }
+    .subtext {font-size: 130%; font-weight: bold;}
 </style>
-<body>
-    
+
+
+
+<div class="container text-center">
+    <h1>Enter the Void.com</h1>
+    <h2>Microblogging on a micro framework...</h2><br>
+    <a href="{{url_for('main.new_blog')}}"><br></a>
+</div>
+
+
 {% for blog in blogs[::-1]%}
 <div class="container">
-<div class="card" >
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-      <p class="card-text">{{blog.blog}}</p>
-      <p class="subtext"> Posted: {{blog.date.strftime("%c")}}</p>
-      <a href="{{url_for('main.blog_page',id = blog.id)}}" class="card-link">Read More & Comment</a>
+    <div class="panel bg-light text-justify style="style="box-shadow: 5px 5px 5px 5px #ceedec; padding:10px;">
+        <p>{{blog.blog |truncate(100)}}</p>
+        <p class="subtext"> Posted: {{blog.date.strftime("%c")}}</p>
+        <a href="{{url_for('main.blog_page',id = blog.id)}}" class= "btn btn-success btn-sm" style="background-color: #7F7EFF;">Read more & Comment </a>
     </div>
-  </div>
-</div>
+</div>   
 {% endfor %} 
-
 <div class="container">
-<div class="card">
-    <div class="card-header">
-      The Void says:
-    </div>
+    <div class="card">
+        <div class="card-header">
+          The Void says:
+        </div>
+
     <div class="card-body">
       <blockquote class="blockquote">
         <p>{{quotes.quote}}</p>
@@ -37,4 +45,7 @@
 </body>
 
 {% endblock%}
+
+
+
 

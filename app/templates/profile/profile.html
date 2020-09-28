@@ -39,16 +39,15 @@
 
 
 <h3 class="text-center">My Blog Posts</h3>
-<div>
+<div class="container">
     {% if blogs %}
     {% for blog in blogs %}
         
-        {{blog.blog}}
+        <ul><li>{{blog.blog}}
             {% if current_user.is_authenticated%}
             <a href="{{url_for('main.delete',id=blog.id)}}">Delete</a>
-            {% endif %}
-        </div>
-    </div>
+            {% endif %}</li></ul>
+       
     {% endfor %}
     {% else %}
     <h2>You have no blogs</h2>
