@@ -29,7 +29,6 @@ def profile(uname):
 
     return render_template("profile/profile.html", user = user, blogs = blogs, title = title)
 
-
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
 @login_required
 def update_profile(uname):
@@ -84,19 +83,11 @@ def blog_page(id):
     comments = Comment.query.filter_by(blog_id = blog.id)
     return render_template("blog.html", title = title, blog = blog, comment_form = form, comments = comments)
 
-@main.route("/delete/comment/<id>")
-def delete_comment(id):
-    comment = Comment.query.filter_by(id = id).first()
-    blog_id = comment.blog.id
-    db.session.delete(comment)
-    db.session.commit()
-    return redirect(url_for("main.blog_page", id = blog_id))
+# @main.route("/delete/<id>")
+# def delete(id):
+#     blog = Blog.query.filter_by(id = id).first()
+#     user_id = blog.user_id
+#     db.session.delete(blog)
+#     db.session.commit()
 
-@main.route("/delete/<id>")
-def delete(id):
-    blog = Blog.query.filter_by(id = id).first()
-    user_id = blog.user_id
-    db.session.delete(blog)
-    db.session.commit()
-
-    return redirect(url_for('main.profile',id = user_id))
+#     return redirect(url_for('blog.html',id = user_id))

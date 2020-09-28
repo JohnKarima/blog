@@ -36,7 +36,6 @@
         {% for blog in blogs %}
             <ul><li>{{blog.blog|truncate(50)}}
                 {% if current_user.is_authenticated%}
-                <a href="{{url_for('main.delete',id=blog.id)}}">Delete</a>
                 {% endif %}</li></ul>
         {% endfor %}
         {% else %}
